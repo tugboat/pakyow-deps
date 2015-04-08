@@ -35,7 +35,7 @@ echo "Looks like you're running $platform"
 #
 # Check if Ruby is installed
 #
-which -s ruby
+which ruby > /dev/null
 if [[ $? != 0 ]] ; then
   # Install Homebrew
   p_warn "Ruby not found"
@@ -50,7 +50,7 @@ fi
 #
 # Check if Gem is installed
 #
-which -s gem
+which gem > /dev/null
 if [[ $? != 0 ]] ; then
   # Install Homebrew
   p_warn "rubygems not found"
