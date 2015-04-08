@@ -1,5 +1,7 @@
 #! /bin/bash
 
+deps_met=true
+
 function p_success {
   message=$1
 
@@ -39,6 +41,7 @@ which ruby > /dev/null
 if [[ $? != 0 ]] ; then
   # Install Homebrew
   p_warn "Ruby not found"
+  deps_met=false
   #/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
   #brew update
@@ -54,9 +57,20 @@ which gem > /dev/null
 if [[ $? != 0 ]] ; then
   # Install Homebrew
   p_warn "rubygems not found"
+  deps_met=false
   #/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
   #brew update
   gem_version=`gem -v`
   p_success "RubyGems: $gem_version"
+fi
+
+if [[ "$deps_met" == true ]]; then
+  # Check if pakyow is already is installed
+  gem list pakyow -i > /dev/null
+  if [[ $? != 0 ]] ; then
+    echo "Looks like you are all set type 'gem install pakyow' to get started"
+  else
+    echo "Looks like you are all set and have pakyow installed, type 'pakyow new' to get started building your app"
+  fi
 fi
